@@ -1,18 +1,49 @@
-# Your Task
+# LogJam
 
-Imagine you are given a set of log sources.  Each source is comprised of N log entries.  Each entry is a simple javascript object with a timestamp and message.  You don't know how many log entries each source has, BUT you do know that the entries within each source are sorted chronologically (that last bit is important).
+Given N log sources each comprised of a boolean and M log entry objects with a timestamp and message.  
+```
+{
+  drained: <boolean>,
+  [{ date: <randomDate>, msg: <randomString> }, { date: <randomDate>, msg: <randomString> }]
+}
+```
+Where each log source is sorted chronologically by timestamp.
 
-Your mission is to print out all of the entries, across all of the sources, in chronological order.  You don't need to store the final collection of all the entries, literally just print them to console.  Some things to keep in mind:
+There are two types of log sources, syncLogSources and asyncLogSources
 
-* You don't know how long each log source is.  What if it had millions of entries and was terabytes in size?  (In other words, reading the entirety of a log source into memory probably won’t work well.)
-* Some log sources could contain logs from last year, some from yesterday, you won't know the timeframe of a log source until you start looking.
+Each syncLogSource has a single method which returns a  LogEntry as an object of the form:
+```
+  date: Date,
+  msg: String,
+```
+
+Each asyncLogSource will return a Promise
+
+If no entries remain in the log source then the drained boolean will be set to true.
+
+The boolean is a flag that will indicate when the log source contains no more entries.
+
+This command line app will print out all of the entries, across all of the sources, in chronological order and then print some performance stats.
+
+Questions:
+* It is unknown how long each log source is.  What if it had millions of entries and was terabytes in size?  (In other words, reading the entirety of a log source into memory probably won’t work well.)
 * Consider what would happen when you're asked to merge 1K log sources, or even 1M log sources.  Where might your bottlenecks arise?
 
-There are two parts of the challenge which you'll see when you dive into things.  You can get started with things by running `npm start`.
+## Running LogJam
 
-We expect candidates to spend 1-3 hours on this exercise.  By the way, you may use any third party modules you like, and by all means feel free to ask questions!
-
-
-## Submission
-
-Simply create a GitHub repo and name it something fun (please don't give it the same name as this repo).  Then email us a link!
+Create a local clone the repo from your terminal
+```
+git clone https://github.com/lucask42/LogJam
+```
+Navigate to the new folder containing the project
+```
+cd LogJam
+```
+Install the project's dependencies
+```
+npm install
+```
+Run the app
+```
+npm start
+```
