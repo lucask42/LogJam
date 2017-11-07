@@ -1,0 +1,4 @@
+
+> interviews@0.1.0 start /Users/lucas/Downloads/logs
+> node index.js
+
