@@ -13,8 +13,10 @@ There are two types of log sources, syncLogSources and asyncLogSources
 
 Each syncLogSource has a single method which returns a  LogEntry as an object of the form:
 ```
+{
   date: Date,
   msg: String,
+}
 ```
 
 Each asyncLogSource will return a Promise
