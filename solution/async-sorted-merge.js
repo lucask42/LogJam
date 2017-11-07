@@ -1,10 +1,6 @@
 'use strict'
 
-async = require('async')
-
 module.exports = (logSources, printer) => {
-
-
 
   let hopper = initializeHopper();
 
@@ -26,13 +22,9 @@ module.exports = (logSources, printer) => {
   }
 
   function findNextIndex(arr, date) {
-
     if (arr.length > 0) {
     for (let i = 0; i < arr.length; i++) {
-
-
       if (date >= arr[i].date[0]){
-
         return i
       }
     }
@@ -47,7 +39,8 @@ module.exports = (logSources, printer) => {
 
   function popFromSource(id) {
     printer.print(logSources[id].last)
-    async.logSources[id].popAsync();
+    logSources[id].popAsync()
+      .then(refillHopper(id))
   }
 
   function refillHopper(sourceNum) {
@@ -58,33 +51,11 @@ module.exports = (logSources, printer) => {
 
 // run loop
 while (hopper.length > 0) {
-
-
   let idFromHopper = hopper[hopper.length-1].id
   popFromHopper(idFromHopper)
   popFromSource(idFromHopper)
-
-  //get number of source popped
-  //refill from that source
-  // print()
-  refillHopper(idFromHopper)
 }
 
-// console.log(hopper);
 printer.done()
-
-
-
-
-
-
-// print out a single logSource
-// while (logSources[1].drained !== true) {
-// 	printer.print(logSources[1].last)
-// 	logSources[1].pop();
-// }
-//
-// printer.done()
-
 
 }

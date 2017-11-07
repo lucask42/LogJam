@@ -25,10 +25,7 @@ module.exports = (logSources, printer) => {
 
     if (arr.length > 0) {
     for (let i = 0; i < arr.length; i++) {
-
-
       if (date >= arr[i].date[0]){
-
         return i
       }
     }
@@ -54,32 +51,12 @@ module.exports = (logSources, printer) => {
 
 // run loop
 while (hopper.length > 0) {
-
-
   let idFromHopper = hopper[hopper.length-1].id
   popFromSource(idFromHopper)
   popFromHopper(idFromHopper)
-  //get number of source popped
-  //refill from that source
-  // print()
   refillHopper(idFromHopper)
 }
 
-// console.log(hopper);
 printer.done()
-
-
-
-
-
-
-// print out a single logSource
-// while (logSources[1].drained !== true) {
-// 	printer.print(logSources[1].last)
-// 	logSources[1].pop();
-// }
-//
-// printer.done()
-
 
 }
