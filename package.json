@@ -23,8 +23,7 @@
     "lodash": "^4.13.1"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
-    "eslint": "^4.10.0"
+    "ava": "^0.15.2"
   },
   "ava": {
     "files": [
