@@ -2,60 +2,40 @@
 
 module.exports = (logSources, printer) => {
 
-  let hopper = initializeHopper();
+  let hopper = initializeHopper()
 
   function initializeHopper() {
     let arr = []
     logSources.forEach((element, idx) => {
-      insertIntoHopper(arr, element.last.date, idx)
+      require('./lib/insert-into-hopper')(arr, element.last.date, idx)
     })
-    return arr;
-  }
-
-  function insertIntoHopper(arr, date, logSourceId) {
-    const item = {
-      id: [logSourceId],
-      date: [date]
-    }
-    const index = findNextIndex(arr, date)
-    arr.splice(index , 0, item);
-  }
-
-  function findNextIndex(arr, date) {
-    if (arr.length > 0) {
-    for (let i = 0; i < arr.length; i++) {
-      if (date >= arr[i].date[0]){
-        return i
-      }
-    }
-    return arr.length
-    }
-    return 0
+    return arr
   }
 
   function popFromHopper() {
-    hopper.pop();
+    hopper.pop()
   }
 
-  function popFromSource(id) {
+  function printFromSource(id) {
     printer.print(logSources[id].last)
-    logSources[id].popAsync()
-      .then(refillHopper(id))
   }
 
   function refillHopper(sourceNum) {
     if (logSources[sourceNum].drained === false) {
-      insertIntoHopper(hopper, logSources[sourceNum].last.date, sourceNum[0])
+      require('./lib/insert-into-hopper')(hopper, logSources[sourceNum].last.date, sourceNum[0])
     }
   }
 
-// run loop
-while (hopper.length > 0) {
-  let idFromHopper = hopper[hopper.length-1].id
-  popFromHopper(idFromHopper)
-  popFromSource(idFromHopper)
-}
+  // run loop
+  while (hopper.length > 0) {
+    let sourceId = hopper[hopper.length-1].id
+    popFromHopper()
+    printFromSource(sourceId)
+    // pop from appropriate log source and then refill hopper from same source
+    logSources[sourceId].popAsync()
+      .then(refillHopper(sourceId))
+  }
 
-printer.done()
+  printer.done()
 
 }
